@@ -37,21 +37,21 @@ const TabSkeleton = () => (
 const getCategoryIcon = (cat) => {
   const cls = 'h-5 w-5';
   switch (cat) {
-    case 'food':          return <Utensils className={`${cls} text-orange-500`} />;
-    case 'sightseeing':   return <Camera   className={`${cls} text-blue-500`}   />;
-    case 'adventure':     return <Map      className={`${cls} text-green-500`}   />;
-    case 'transport':     return <Bus      className={`${cls} text-slate-500`}   />;
-    case 'accommodation': return <Home     className={`${cls} text-indigo-500`}  />;
-    default:              return <Info     className={`${cls} text-slate-400`}   />;
+    case 'food': return <Utensils className={`${cls} text-orange-500`} />;
+    case 'sightseeing': return <Camera className={`${cls} text-blue-500`} />;
+    case 'adventure': return <Map className={`${cls} text-green-500`} />;
+    case 'transport': return <Bus className={`${cls} text-slate-500`} />;
+    case 'accommodation': return <Home className={`${cls} text-indigo-500`} />;
+    default: return <Info className={`${cls} text-slate-400`} />;
   }
 };
 
 // ── Tab definitions ───────────────────────────────────────────────────────────
 const TABS = [
-  { id: 'timeline', label: 'Timeline',     Icon: Map      },
-  { id: 'packing',  label: 'Packing List', Icon: Luggage  },
-  { id: 'budget',   label: 'Budget',       Icon: DollarSign },
-  { id: 'weather',  label: 'Weather',      Icon: CloudSun },
+  { id: 'timeline', label: 'Timeline', Icon: Map },
+  { id: 'packing', label: 'Packing List', Icon: Luggage },
+  { id: 'budget', label: 'Budget', Icon: DollarSign },
+  { id: 'weather', label: 'Weather', Icon: CloudSun },
 ];
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -59,8 +59,8 @@ const TripDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [trip, setTrip]           = useState(null);
-  const [loading, setLoading]     = useState(true);
+  const [trip, setTrip] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
   const [activeTab, setActiveTab] = useState('timeline');
   const [showExpert, setShowExpert] = useState(false);
@@ -68,7 +68,7 @@ const TripDetailPage = () => {
   // per-tab lazy state: { data, loading, loaded }
   const [tabState, setTabState] = useState({
     packing: { data: null, loading: false, loaded: false },
-    budget:  { data: null, loading: false, loaded: false },
+    budget: { data: null, loading: false, loaded: false },
     weather: { data: null, loading: false, loaded: false },
   });
 
@@ -86,6 +86,7 @@ const TripDetailPage = () => {
       await api.delete(`/trips/${id}`);
       toast.success('Trip deleted successfully');
       navigate('/dashboard');
+
     } catch {
       toast.error('Failed to delete trip');
       setIsDeleting(false);
@@ -198,11 +199,10 @@ const TripDetailPage = () => {
             <button
               key={id}
               onClick={() => handleTabClick(id)}
-              className={`flex-1 min-w-max flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                activeTab === id
+              className={`flex-1 min-w-max flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === id
                   ? 'bg-brand-600 text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-              }`}
+                }`}
             >
               <Icon className="h-4 w-4" /> {label}
             </button>
@@ -286,8 +286,8 @@ const TripDetailPage = () => {
               </div>
             )}
             {ts.loaded && activeTab === 'packing' && <PackingListTab data={ts.data} />}
-            {ts.loaded && activeTab === 'budget'  && <BudgetTab      data={ts.data} />}
-            {ts.loaded && activeTab === 'weather' && <WeatherTab     data={ts.data} />}
+            {ts.loaded && activeTab === 'budget' && <BudgetTab data={ts.data} />}
+            {ts.loaded && activeTab === 'weather' && <WeatherTab data={ts.data} />}
           </div>
         )}
       </div>

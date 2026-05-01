@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      // These options are default in Mongoose 8 but listed for clarity
+    const conn = await mongoose.connect(process.env.ATLAS_URL, {
       serverSelectionTimeoutMS: 5000,
     });
 

@@ -10,6 +10,7 @@ IntelliTour is built on the **MERN** stack (MongoDB, Express, React, Node.js), e
 * **Frontend Client (React/Vite)**
   * **Role:** Delivers a fast, interactive user interface. Handles user inputs, form validation, and renders complex JSON data (itineraries) into beautiful visual timelines.
   * **Hosting/Build:** Bundled using Vite for maximum development speed and optimized production builds.
+  
 * **Backend API (Node.js/Express)**
   * **Role:** Acts as the secure middleware bridging the database, authentication mechanisms, and external AI services. Exposes RESTful endpoints.
 * **Database (MongoDB/Mongoose)**
