@@ -21,6 +21,8 @@ connectDB();
 
 const app = express();
 
+// Trust proxy is required for Render so Passport.js knows the connection is HTTPS
+app.set('trust proxy', 1);
 // ── Security middleware ──────────────────────────────────────────────────────
 app.use(helmet());
 app.use(
