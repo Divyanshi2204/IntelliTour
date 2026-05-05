@@ -1,14 +1,29 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// Create transporter lazily inside the function so env vars are
+// always read at call-time (important on Render where vars load after module init).
+const createTransporter = () => {
+  const user = process.env.EMAIL_USER;
+  const pass = process.env.EMAIL_PASS;
+
+  if (!user || !pass) {
+    throw new Error(`Email env vars missing — EMAIL_USER: ${user ? 'set' : 'MISSING'}, EMAIL_PASS: ${pass ? 'set' : 'MISSING'}`);
+  }
+
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,          // STARTTLS (NOT SSL on 465)
+    auth: { user, pass },
+    tls: {
+      rejectUnauthorized: false, // handles some cloud-host cert issues
+    },
+  });
+};
 
 const sendOTP = async (toEmail, otpCode) => {
+  const transporter = createTransporter();
+
   const mailOptions = {
     from: `"IntelliTour" <${process.env.EMAIL_USER}>`,
     to: toEmail,
@@ -31,3 +46,4 @@ const sendOTP = async (toEmail, otpCode) => {
 };
 
 module.exports = { sendOTP };
+

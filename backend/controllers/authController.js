@@ -80,11 +80,16 @@ const register = async (req, res) => {
       message: 'OTP sent to your email. Please verify to continue.',
     });
   } catch (error) {
+    // Log the real SMTP error so it appears in Render's log stream
+    console.error('❌ Email send failed:', error.message);
+    console.error('   Stack:', error.stack);
     // If email fails, cleanup user and throw error
     await User.findByIdAndDelete(user._id);
     return res.status(500).json({
       success: false,
       message: 'Failed to send verification email. Please try again.',
+      // Include error detail in dev mode for easier debugging
+      ...(process.env.NODE_ENV !== 'production' && { debug: error.message }),
     });
   }
 };
